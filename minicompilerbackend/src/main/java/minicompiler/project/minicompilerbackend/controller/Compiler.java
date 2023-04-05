@@ -27,18 +27,29 @@ public class Compiler {
             try {
                 Process process = Runtime.getRuntime()
                         .exec(String.format("cmd.exe /c " + command));
-                InputStream inputStream = process.getInputStream();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+
+
+
+                BufferedReader inputReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+                BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+
                 StringBuilder output = new StringBuilder();
                 String line;
-                while ((line = reader.readLine()) != null) {
-                    output.append(line).append("\n");
+                while ((line = inputReader.readLine()) != null) {
+                    output.append(line + "\n");
                 }
-                process.waitFor();
-                return output.toString();
-            } catch (IOException | InterruptedException e) {
+                while ((line = errorReader.readLine()) != null) {
+                    output.append(line + "\n");
+                }
+
+
+
+
+            return output.toString();
+            } catch (IOException  e) {
                 e.printStackTrace();
                 return "Error executing command: " + e.getMessage();
+
             }
         }
         else {
