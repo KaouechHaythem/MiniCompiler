@@ -9,7 +9,7 @@
 }
 .grid{
     display: grid;
-    grid-template-columns: 47% 47%;
+    grid-template-columns: 41% 41%;
     padding-top: 50px;
     margin-left: 50px;
     grid-gap: 25px;
